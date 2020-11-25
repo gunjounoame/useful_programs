@@ -16,6 +16,14 @@ Checks if a given year is a leap year or not.
 
 (added in v0.1.0)
 
+## TODOs
+
+(Check here for upcoming features and future updates in general!)
+
+### `useful.leapyear`
+
+- [ ] Reimplement `useful.leapyear.CheckLeapYear.jtfYear` to a `SpinnerNumberModel`
+
 ## FAQ
 
 Why does the repository name contain an underscore when it's written in Java?
