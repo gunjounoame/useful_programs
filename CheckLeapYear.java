@@ -2,20 +2,27 @@ package useful.leapyear;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import useful.templates.GuiProject;
 
 public class CheckLeapYear extends GuiProject {
-  private JTextField jtfYear = new JTextField(); // TODO: Refactor this into a SpinnerNumberModel
+  private Calendar calendar = new GregorianCalendar();
+  private JSpinner jspnYear = new JSpinner(new SpinnerNumberModel(calendar.get(Calendar.YEAR),
+      Integer.MIN_VALUE, Integer.MAX_VALUE, 1));
   private JLabel jlblLeapYear = new JLabel();
   private JButton jbtCheck = new JButton("Check");
 
   /** Add required Swing elements when constructed. */
   public CheckLeapYear() {
+    // Customize JSpinners
+    jspnYear.setEditor(new JSpinner.NumberEditor(jspnYear, "#"));
+    
+    // Add necessary Swing components
     JPanel p1 = new JPanel(new GridLayout(2, 2));
     p1.add(new JLabel("Year:"));
-    p1.add(jtfYear);
+    p1.add(jspnYear);
     p1.add(new JLabel("Leap Year?"));
     p1.add(jlblLeapYear);
     p1.setBorder(new TitledBorder("Enter year."));
@@ -27,6 +34,7 @@ public class CheckLeapYear extends GuiProject {
     add(p1, BorderLayout.CENTER);
     add(p2, BorderLayout.SOUTH);
 
+    // Add Listeners
     jbtCheck.addActionListener(new CheckListener());
   }
 
@@ -35,7 +43,7 @@ public class CheckLeapYear extends GuiProject {
     @Override
     public void actionPerformed(ActionEvent e) {
       try {
-        boolean isLeapYear = checkLeapYear(Integer.parseInt(jtfYear.getText()));
+        boolean isLeapYear = checkLeapYear((int)jspnYear.getValue());
         jlblLeapYear.setText(isLeapYear ? "Yes" : "No");
       } catch (NumberFormatException err) {
         jlblLeapYear.setText("ERROR");
