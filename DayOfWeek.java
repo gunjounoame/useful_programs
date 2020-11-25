@@ -2,12 +2,15 @@ package useful.dayofweek;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import useful.templates.GuiProject;
 
 public class DayOfWeek extends GuiProject {
-  private JTextField jtfYear = new JTextField();
+  private Calendar calendar = new GregorianCalendar();
+  private JSpinner jspnYear = new JSpinner(new SpinnerNumberModel(calendar.get(Calendar.YEAR),
+      Integer.MIN_VALUE, Integer.MAX_VALUE, 1));
   private JSpinner jspnMonth = new JSpinner(new SpinnerListModel(new String[] {"January",
       "February", "March", "April", "May", "June", "July", "August", "September", "October",
       "November", "December"}));
@@ -16,9 +19,11 @@ public class DayOfWeek extends GuiProject {
   private JButton jbtComputeDayOfWeek = new JButton("Compute Day of Week");
 
   public DayOfWeek() {
+    jspnYear.setEditor(new JSpinner.NumberEditor(jspnYear, "#"));
+    
     JPanel p1 = new JPanel(new GridLayout(4, 2));
     p1.add(new JLabel("Year:"));
-    p1.add(jtfYear);
+    p1.add(jspnYear);
     p1.add(new JLabel("Month:"));
     p1.add(jspnMonth);
     p1.add(new JLabel("Day:"));
@@ -50,7 +55,7 @@ public class DayOfWeek extends GuiProject {
   }
 
   private void updateDayOfWeek() throws NumberFormatException {
-    int year = Integer.parseInt(jtfYear.getText());
+    int year = (int)jspnYear.getValue();
     int month = parseMonth(jspnMonth.getValue().toString());
     int dayOfMonth = (int)jspnDay.getValue();
     switch (month) {
