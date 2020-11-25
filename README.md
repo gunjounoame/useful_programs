@@ -16,6 +16,12 @@ Checks if a given year is a leap year or not.
 
 (added in v0.1.0)
 
+### `DayOfWeek` (Package: `useful.dayofweek`)
+
+Calculates which day of the week a given date falls on.
+
+(added in v0.1.0)
+
 ## FAQ
 
 Why does the repository name contain an underscore when it's written in Java?
