@@ -23,9 +23,14 @@ Checks if a given year is a leap year or not.
 ### `useful.leapyear`
 
 - [ ] Reimplement `useful.leapyear.CheckLeapYear.jtfYear` to a `SpinnerNumberModel`
+- [ ] Reimplement `useful.leapyear.CheckLeapYear.checkLeapYear()` to accept an integer as an argument, check that argument, and return a boolean, instead of checking in `jtfYear` directly
 
 ## FAQ
 
 Why does the repository name contain an underscore when it's written in Java?
 
 > Because the very original versions of the project (you won't find it on GitHub; I developed it locally) only consisted of Python projects. I later reprogrammed everything to be written in Java, but the repository name is still in Python style.
+
+Why are there two branches named `master` and `development`?
+
+> The `development` branch is mostly used for development purposes (as the name suggests) and contains the newest source code for the project. However, this code may not be stable yet. For this reason, the `master` branch contains the latest *stable* source code.
