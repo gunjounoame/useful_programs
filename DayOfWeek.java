@@ -19,8 +19,12 @@ public class DayOfWeek extends GuiProject {
   private JButton jbtComputeDayOfWeek = new JButton("Compute Day of Week");
 
   public DayOfWeek() {
+    // Customize JSpinners
     jspnYear.setEditor(new JSpinner.NumberEditor(jspnYear, "#"));
+    jspnMonth.setValue(parseMonthInt(calendar.get(Calendar.MONTH)));
+    jspnDay.setValue(calendar.get(Calendar.DATE));
     
+    // Add necessary Swing components
     JPanel p1 = new JPanel(new GridLayout(4, 2));
     p1.add(new JLabel("Year:"));
     p1.add(jspnYear);
@@ -39,6 +43,7 @@ public class DayOfWeek extends GuiProject {
     add(p1, BorderLayout.CENTER);
     add(p2, BorderLayout.SOUTH);
 
+    // Add Listeners
     jbtComputeDayOfWeek.addActionListener(new ButtonListener());
   }
 
@@ -124,6 +129,38 @@ public class DayOfWeek extends GuiProject {
         return 12;
       default:
         return 0;
+    }
+  }
+
+  /** Return month as a string from a number. */
+  private static String parseMonthInt(int monthInt) {
+    switch (monthInt) {
+      case 0:
+        return "January";
+      case 1:
+        return "February";
+      case 2:
+        return "March";
+      case 3:
+        return "April";
+      case 4:
+        return "May";
+      case 5:
+        return "June";
+      case 6:
+        return "July";
+      case 7:
+        return "August";
+      case 8:
+        return "September";
+      case 9:
+        return "October";
+      case 10:
+        return "November";
+      case 11:
+        return "December";
+      default:
+        return "January";
     }
   }
 
