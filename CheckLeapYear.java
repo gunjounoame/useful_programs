@@ -27,26 +27,26 @@ public class CheckLeapYear extends GuiProject {
     add(p1, BorderLayout.CENTER);
     add(p2, BorderLayout.SOUTH);
 
-    jbtCheck.addActionListener(new ButtonListener());
+    jbtCheck.addActionListener(new CheckListener());
   }
 
-  /** Listen for when the "Check" button is pressed. */
-  private class ButtonListener implements ActionListener {
+  /** Listen for when jbtCheck is pressed and update jlblLeapYear. */
+  private class CheckListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
       try {
-        checkLeapYear();
+        boolean isLeapYear = checkLeapYear(Integer.parseInt(jtfYear.getText()));
+        jlblLeapYear.setText(isLeapYear ? "Yes" : "No");
       } catch (NumberFormatException err) {
         jlblLeapYear.setText("ERROR");
       }
     }
   }
 
-  /** Check if the number in jtfYear is a leap year. */
-  private void checkLeapYear() throws NumberFormatException {
-    int year = Short.parseShort(jtfYear.getText());
+  /** Check if the given year is a leap year. */
+  public static boolean checkLeapYear(int year) {
     boolean isLeapYear = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
-    jlblLeapYear.setText(isLeapYear ? "Yes" : "No");
+    return isLeapYear;
   }
 
   /** Main method. */
