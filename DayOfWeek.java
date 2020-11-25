@@ -18,6 +18,7 @@ public class DayOfWeek extends GuiProject {
   private JLabel jlblDayOfWeek = new JLabel();
   private JButton jbtComputeDayOfWeek = new JButton("Compute Day of Week");
 
+  /** Add required Swing elements when constructed. */
   public DayOfWeek() {
     // Customize JSpinners
     jspnYear.setEditor(new JSpinner.NumberEditor(jspnYear, "#"));
@@ -44,25 +45,31 @@ public class DayOfWeek extends GuiProject {
     add(p2, BorderLayout.SOUTH);
 
     // Add Listeners
-    jbtComputeDayOfWeek.addActionListener(new ButtonListener());
+    jbtComputeDayOfWeek.addActionListener(new ComputeListener());
   }
 
-  /** Calculate the day of the week. */
-  private class ButtonListener implements ActionListener {
+  private class ComputeListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
       try {
-        updateDayOfWeek();
+        int year = (int) jspnYear.getValue();
+        int month = parseMonth(jspnMonth.getValue().toString());
+        int dayOfMonth = (int) jspnDay.getValue();
+        String dayOfWeek = calculateDayOfWeek(year, month, dayOfMonth);
+        jlblDayOfWeek.setText(dayOfWeek);
       } catch (NumberFormatException err) {
         jlblDayOfWeek.setText("ERROR");
       }
     }
   }
 
-  private void updateDayOfWeek() throws NumberFormatException {
-    int year = (int)jspnYear.getValue();
-    int month = parseMonth(jspnMonth.getValue().toString());
-    int dayOfMonth = (int)jspnDay.getValue();
+  /**
+   * Calculate the day of the week as a String based on arguments, or "ERROR" if an error occurs.
+   */
+  private static String calculateDayOfWeek(int year_, int month_, int dayOfMonth_) {
+    int year = year_;
+    int month = month_;
+    int dayOfMonth = dayOfMonth_;
     switch (month) {
       case 1:
         month = 13;
@@ -74,34 +81,31 @@ public class DayOfWeek extends GuiProject {
     }
     int century = year / 100;
     int yearOfCentury = year % 100;
-
     int dayOfWeek = (dayOfMonth + (13 * (month + 1)) / 5 + yearOfCentury + (yearOfCentury) / 4
-      + century / 4 + 5 * century) % 7;
+        + century / 4 + 5 * century) % 7;
+
     switch (dayOfWeek) {
       case 0:
-        jlblDayOfWeek.setText("Saturday");
-        break;
+        return "Saturday";
       case 1:
-        jlblDayOfWeek.setText("Sunday");
-        break;
+        return "Sunday";
       case 2:
-        jlblDayOfWeek.setText("Monday");
-        break;
+        return "Monday";
       case 3:
-        jlblDayOfWeek.setText("Tuesday");
-        break;
+        return "Tuesday";
       case 4:
-        jlblDayOfWeek.setText("Wednesday");
-        break;
+        return "Wednesday";
       case 5:
-        jlblDayOfWeek.setText("Thursday");
-        break;
+        return "Thursday";
       case 6:
-        jlblDayOfWeek.setText("Friday");
+        return "Friday";
+      default:
+        return "ERROR";
     }
   }
 
-  private int parseMonth(String monthString) {
+  /** Return the corresponding Integer to the month, or 0 if an error occurs. */
+  private static int parseMonth(String monthString) {
     switch (monthString) {
       case "January":
         return 1;
@@ -132,7 +136,10 @@ public class DayOfWeek extends GuiProject {
     }
   }
 
-  /** Return month as a string from a number. */
+  /** 
+   * Return the corresponding month name as a String to the month as an Integer, or "January" if an
+   * error occurs.
+   */
   private static String parseMonthInt(int monthInt) {
     switch (monthInt) {
       case 0:
