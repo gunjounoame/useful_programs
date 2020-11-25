@@ -11,6 +11,7 @@ public class CheckLeapYear extends GuiProject {
   private JLabel jlblLeapYear = new JLabel();
   private JButton jbtCheck = new JButton("Check");
 
+  /** Add required Swing elements when constructed. */
   public CheckLeapYear() {
     JPanel p1 = new JPanel(new GridLayout(2, 2));
     p1.add(new JLabel("Year:"));
@@ -29,6 +30,7 @@ public class CheckLeapYear extends GuiProject {
     jbtCheck.addActionListener(new ButtonListener());
   }
 
+  /** Listen for when the "Check" button is pressed. */
   private class ButtonListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -40,6 +42,7 @@ public class CheckLeapYear extends GuiProject {
     }
   }
 
+  /** Check if the number in jtfYear is a leap year. */
   private void checkLeapYear() throws NumberFormatException {
     int year = Short.parseShort(jtfYear.getText());
     boolean isLeapYear = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
