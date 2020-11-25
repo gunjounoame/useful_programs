@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import useful.GuiProject;
+import useful.templates.GuiProject;
 
 public class CheckLeapYear extends GuiProject {
   private JTextField jtfYear = new JTextField(); // TODO: Refactor this into a SpinnerNumberModel
