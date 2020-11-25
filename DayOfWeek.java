@@ -8,10 +8,9 @@ import useful.templates.GuiProject;
 
 public class DayOfWeek extends GuiProject {
   private JTextField jtfYear = new JTextField();
-  private JComboBox<String> jcbMonth = new JComboBox<String>(new String[] {"January", "February",
-                                                             "March", "April", "May", "June", "July",
-                                                             "August", "September", "October",
-                                                             "November", "December"});
+  private JSpinner jspnMonth = new JSpinner(new SpinnerListModel(new String[] {"January",
+      "February", "March", "April", "May", "June", "July", "August", "September", "October",
+      "November", "December"}));
   private JSpinner jspnDay = new JSpinner(new SpinnerNumberModel(1, 1, 31, 1));
   private JLabel jlblDayOfWeek = new JLabel();
   private JButton jbtComputeDayOfWeek = new JButton("Compute Day of Week");
@@ -21,7 +20,7 @@ public class DayOfWeek extends GuiProject {
     p1.add(new JLabel("Year:"));
     p1.add(jtfYear);
     p1.add(new JLabel("Month:"));
-    p1.add(jcbMonth);
+    p1.add(jspnMonth);
     p1.add(new JLabel("Day:"));
     p1.add(jspnDay);
     p1.add(new JLabel("Day of week:"));
@@ -52,7 +51,7 @@ public class DayOfWeek extends GuiProject {
 
   private void updateDayOfWeek() throws NumberFormatException {
     int year = Integer.parseInt(jtfYear.getText());
-    int month = parseMonth(jcbMonth.getSelectedItem().toString());
+    int month = parseMonth(jspnMonth.getValue().toString());
     int dayOfMonth = (int)jspnDay.getValue();
     switch (month) {
       case 1:
@@ -126,7 +125,7 @@ public class DayOfWeek extends GuiProject {
   /** Main method. */
   public static void main(String[] args) {
     DayOfWeek frame = new DayOfWeek();
-    frame.pack();
+    frame.setSize(200, 200);
     frame.setTitle("Day of week calculator");
     frame.setLocationRelativeTo(null);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
