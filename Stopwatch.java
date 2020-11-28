@@ -14,7 +14,9 @@ public class Stopwatch extends GuiProject {
   private long lastTime;
   private long lapNum = 1;
   
+  /** Add required Swing elements when constructed. */
   public Stopwatch() {
+    // Add necessary Swing components
     JPanel p1 = new JPanel(new BorderLayout());
     jtaOutput.setEditable(false);
     p1.add(new JScrollPane(jtaOutput), BorderLayout.CENTER);
@@ -28,10 +30,15 @@ public class Stopwatch extends GuiProject {
     add(p1, BorderLayout.CENTER);
     add(p2, BorderLayout.SOUTH);
 
+    // Add Listeners
     jbtLap.addActionListener(new LapListener());
     jbtReset.addActionListener(new ResetListener());
   }
 
+  /** 
+   * Listen for when jbtLap is pressed and start the stopwatch if one hasn't started yet, otherwise
+   * log a line of output representing the lap to jtaOutput.
+   */
   class LapListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -52,6 +59,7 @@ public class Stopwatch extends GuiProject {
     }
   }
 
+  /** Listen for when jbtReset is pressed and reset the program to its defaults. */
   class ResetListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -65,6 +73,7 @@ public class Stopwatch extends GuiProject {
     }
   }
   
+  /** Main method. */
   public static void main(String[] args) {
     Stopwatch frame = new Stopwatch();
     frame.setSize(350, 200);

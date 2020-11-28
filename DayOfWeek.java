@@ -48,6 +48,7 @@ public class DayOfWeek extends GuiProject {
     jbtComputeDayOfWeek.addActionListener(new ComputeListener());
   }
 
+  /** Listen for when jbtComputeDayOfWeek is pressed and update jlblDayOfWeek. */
   private class ComputeListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {

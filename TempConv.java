@@ -11,32 +11,35 @@ public class TempConv extends GuiProject {
   private JComboBox<String> jcbTemperatures1 = new JComboBox<String>(temperaturesList1);
   private String[] temperaturesList2 = {"Celsius", "Fahrenheit", "Kelvin"};
   private JComboBox<String> jcbTemperatures2 = new JComboBox<String>(temperaturesList2);
-  private JButton jbtnSwitch = new JButton("\u2194");
+  private JButton jbtSwitch = new JButton("\u2194");
   private JTextField jtfFromTemperature = new JTextField();
-  private JButton jbtnConvert = new JButton("\u2192");
+  private JButton jbtConvert = new JButton("\u2192");
   private JLabel jlblToTemperature = new JLabel();
 
+  /** Add required Swing elements when constructed. */
   public TempConv() {
+    // Add necessary Swing components
     jcbTemperatures1.setSelectedItem("Fahrenheit");
-    jbtnConvert.setMnemonic('C');
-    jbtnSwitch.setMnemonic('S');
+    jbtConvert.setMnemonic('C');
+    jbtSwitch.setMnemonic('S');
 
     JPanel p = new JPanel(new GridLayout(2, 3, 5, 5));
     p.add(jcbTemperatures1);
-    p.add(jbtnSwitch);
+    p.add(jbtSwitch);
     p.add(jcbTemperatures2);
     p.add(jtfFromTemperature);
-    p.add(jbtnConvert);
+    p.add(jbtConvert);
     p.add(jlblToTemperature);
     p.setBorder(new TitledBorder("Choose temperatures, enter temperature, and convert."));
 
     add(p, BorderLayout.CENTER);
 
-    jbtnConvert.addActionListener(new ConvertListener());
-    jbtnSwitch.addActionListener(new SwitchListener());
+    // Add Listeners
+    jbtConvert.addActionListener(new ConvertListener());
+    jbtSwitch.addActionListener(new SwitchListener());
   }
 
-  /** Handle the convert button. */
+  /** Listen for when jbtConvert is pressed and update jlblToTemperature. */
   private class ConvertListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -92,6 +95,7 @@ public class TempConv extends GuiProject {
     }
   }
 
+  /** Listen for when jbtSwitch is pressed and switch the temperature units. */
   private class SwitchListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
