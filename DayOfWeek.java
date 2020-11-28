@@ -66,7 +66,7 @@ public class DayOfWeek extends GuiProject {
   /**
    * Calculate the day of the week as a String based on arguments, or "ERROR" if an error occurs.
    */
-  private static String calculateDayOfWeek(int year_, int month_, int dayOfMonth_) {
+  public static String calculateDayOfWeek(int year_, int month_, int dayOfMonth_) {
     int year = year_;
     int month = month_;
     int dayOfMonth = dayOfMonth_;
@@ -105,7 +105,7 @@ public class DayOfWeek extends GuiProject {
   }
 
   /** Return the corresponding Integer to the month, or 0 if an error occurs. */
-  private static int parseMonth(String monthString) {
+  public static int parseMonth(String monthString) {
     switch (monthString) {
       case "January":
         return 1;
@@ -140,7 +140,7 @@ public class DayOfWeek extends GuiProject {
    * Return the corresponding month name as a String to the month as an Integer, or "January" if an
    * error occurs.
    */
-  private static String parseMonthInt(int monthInt) {
+  public static String parseMonthInt(int monthInt) {
     switch (monthInt) {
       case 0:
         return "January";
