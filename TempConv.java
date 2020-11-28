@@ -41,58 +41,54 @@ public class TempConv extends GuiProject {
     @Override
     public void actionPerformed(ActionEvent e) {
       try {
-        convertTemperature();
+        String fromTemperatureUnit = (String) jcbTemperatures1.getSelectedItem();
+        String toTemperatureUnit = (String) jcbTemperatures2.getSelectedItem();
+        double fromTemperature = Double.parseDouble(jtfFromTemperature.getText());
+
+        switch (fromTemperatureUnit) {
+          case "Celsius":
+            switch (toTemperatureUnit) {
+              case "Celsius":
+                jlblToTemperature.setText(Double.toString(fromTemperature));
+                break;
+              case "Fahrenheit":
+                jlblToTemperature.setText(Double.toString(celsiusToFahrenheit(fromTemperature)));
+                break;
+              case "Kelvin":
+                jlblToTemperature.setText(Double.toString(celsiusToKelvin(fromTemperature)));
+                break;
+            }
+            break;
+          case "Fahrenheit":
+            switch (toTemperatureUnit) {
+              case "Celsius":
+                jlblToTemperature.setText(Double.toString(fahrenheitToCelsius(fromTemperature)));
+                break;
+              case "Fahrenheit":
+                jlblToTemperature.setText(Double.toString(fromTemperature));
+                break;
+              case "Kelvin":
+                jlblToTemperature.setText(Double.toString(fahrenheitToKelvin(fromTemperature)));
+                break;
+            }
+            break;
+          case "Kelvin":
+            switch (toTemperatureUnit) {
+              case "Celsius":
+                jlblToTemperature.setText(Double.toString(kelvinToCelsius(fromTemperature)));
+                break;
+              case "Fahrenheit":
+                jlblToTemperature.setText(Double.toString(kelvinToFahrenheit(fromTemperature)));
+                break;
+              case "Kelvin":
+                jlblToTemperature.setText(Double.toString(fromTemperature));
+                break;
+            }
+            break;
+        }
       } catch (NumberFormatException err) {
         jlblToTemperature.setText("ERROR");
       }
-    }
-  }
-
-  private void convertTemperature() throws NumberFormatException {
-    String fromTemperatureUnit = (String) jcbTemperatures1.getSelectedItem();
-    String toTemperatureUnit = (String) jcbTemperatures2.getSelectedItem();
-    double fromTemperature = Double.parseDouble(jtfFromTemperature.getText());
-
-    switch (fromTemperatureUnit) {
-      case "Celsius":
-        switch (toTemperatureUnit) {
-          case "Celsius":
-            jlblToTemperature.setText(Double.toString(fromTemperature));
-            break;
-          case "Fahrenheit":
-            jlblToTemperature.setText(Double.toString(celsiusToFahrenheit(fromTemperature)));
-            break;
-          case "Kelvin":
-            jlblToTemperature.setText(Double.toString(celsiusToKelvin(fromTemperature)));
-            break;
-        }
-        break;
-      case "Fahrenheit":
-        switch (toTemperatureUnit) {
-          case "Celsius":
-            jlblToTemperature.setText(Double.toString(fahrenheitToCelsius(fromTemperature)));
-            break;
-          case "Fahrenheit":
-            jlblToTemperature.setText(Double.toString(fromTemperature));
-            break;
-          case "Kelvin":
-            jlblToTemperature.setText(Double.toString(fahrenheitToKelvin(fromTemperature)));
-            break;
-        }
-        break;
-      case "Kelvin":
-        switch (toTemperatureUnit) {
-          case "Celsius":
-            jlblToTemperature.setText(Double.toString(kelvinToCelsius(fromTemperature)));
-            break;
-          case "Fahrenheit":
-            jlblToTemperature.setText(Double.toString(kelvinToFahrenheit(fromTemperature)));
-            break;
-          case "Kelvin":
-            jlblToTemperature.setText(Double.toString(fromTemperature));
-            break;
-        }
-        break;
     }
   }
 
@@ -131,7 +127,7 @@ public class TempConv extends GuiProject {
   }
 
   public double fahrenheitToKelvin(double fahrenheit) {
-    return celsiusToKelvin(fahrenheitToCelsius(fahrenheit));
+    return (fahrenheit + 459.67) * (5.0 / 9);
   }
 
   public double kelvinToCelsius(double kelvin) {
@@ -139,6 +135,6 @@ public class TempConv extends GuiProject {
   }
 
   public double kelvinToFahrenheit(double kelvin) {
-    return celsiusToFahrenheit(kelvinToCelsius(kelvin));
+    return kelvin * (9.0 / 5) - 459.67;
   }
 }
