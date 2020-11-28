@@ -7,10 +7,10 @@ import javax.swing.border.TitledBorder;
 import useful.templates.GuiProject;
 
 public class TempConv extends GuiProject {
-  private String[] temperaturesList1 = {"Celsius", "Fahrenheit", "Kelvin"};
-  private JComboBox<String> jcbTemperatures1 = new JComboBox<String>(temperaturesList1);
-  private String[] temperaturesList2 = {"Celsius", "Fahrenheit", "Kelvin"};
-  private JComboBox<String> jcbTemperatures2 = new JComboBox<String>(temperaturesList2);
+  private JComboBox<String> jcbTemperatures1 = new JComboBox<String>(new String[] {"Celsius",
+      "Fahrenheit", "Kelvin"});
+  private JComboBox<String> jcbTemperatures2 = new JComboBox<String>(new String[] {"Celsius",
+      "Fahrenheit", "Kelvin"});
   private JButton jbtSwitch = new JButton("\u2194");
   private JTextField jtfFromTemperature = new JTextField();
   private JButton jbtConvert = new JButton("\u2192");
@@ -109,7 +109,6 @@ public class TempConv extends GuiProject {
   public static void main(String[] args) {
     TempConv frame = new TempConv();
     frame.setSize(350, 110);
-    // frame.pack();
     frame.setTitle("Temperature Converter");
     frame.setLocationRelativeTo(null);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
