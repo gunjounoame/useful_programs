@@ -42,6 +42,17 @@ A general stopwatch, with options for "reset," "start," and "lap."
 - Alt+L: Mark a new lap
 - Alt+R: Reset the stopwatch session
 
+### `TempConv` (Package: `useful.tempconv`)
+
+Converts temperatures between Celsius, Fahrenheit, and Kelvin.
+
+(added in v0.1.0)
+
+#### Shortcuts
+
+- Alt+C: Convert starting temperature to the target temperature unit.
+- Alt+S: Switch the starting temperature unit and the target temperature unit.
+
 ## FAQ
 
 Why does the repository name contain an underscore when it's written in Java?
