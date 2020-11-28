@@ -53,6 +53,10 @@ Converts temperatures between Celsius, Fahrenheit, and Kelvin.
 - Alt+C: Convert starting temperature to the target temperature unit.
 - Alt+S: Switch the starting temperature unit and the target temperature unit.
 
+## Documentation
+
+The documentation for `useful_programs` is in construction in the `docs` folder in the repository. Check it out!
+
 ## FAQ
 
 Why does the repository name contain an underscore when it's written in Java?
