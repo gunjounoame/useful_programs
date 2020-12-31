@@ -16,19 +16,13 @@ Checks if a given year is a leap year or not.
 
 (added in v0.1.0)
 
-#### Shortcuts
-
-- Alt+C: Check if the year selected is a leap year.
-
 ### `DayOfWeek` (Package: `useful.dayofweek`)
 
 Calculates which day of the week a given date falls on.
 
 (added in v0.1.0)
 
-#### Shortcuts
-
-- Alt+C: Calculate the day of the week the given day is on.
+**Note**: this program is now temporarily broken as I reimplement the different programs in JavaFX. Please use the other versions of this program in the `master` branch (stable release) or the `development` branch (development release). Sorry for any inconveniences!
 
 ### `Stopwatch` (Package: `useful.stopwatch`)
 
@@ -36,11 +30,7 @@ A general stopwatch, with options for "reset," "start," and "lap."
 
 (added in v0.1.0)
 
-#### Shortcuts
-
-- Alt+S: Start the stopwatch session
-- Alt+L: Mark a new lap
-- Alt+R: Reset the stopwatch session
+**Note**: this program is now temporarily broken as I reimplement the different programs in JavaFX. Please use the other versions of this program in the `master` branch (stable release) or the `development` branch (development release). Sorry for any inconveniences!
 
 ### `TempConv` (Package: `useful.tempconv`)
 
@@ -48,10 +38,7 @@ Converts temperatures between Celsius, Fahrenheit, and Kelvin.
 
 (added in v0.1.0)
 
-#### Shortcuts
-
-- Alt+C: Convert starting temperature to the target temperature unit.
-- Alt+S: Switch the starting temperature unit and the target temperature unit.
+**Note**: this program is now temporarily broken as I reimplement the different programs in JavaFX. Please use the other versions of this program in the `master` branch (stable release) or the `development` branch (development release). Sorry for any inconveniences!
 
 ## FAQ
 
