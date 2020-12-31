@@ -1,78 +1,63 @@
 package useful.leapyear;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.border.TitledBorder;
-import useful.templates.GuiProject;
+import javafx.application.Application;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
-public class CheckLeapYear extends GuiProject {
+public class CheckLeapYear extends Application {
   private Calendar calendar = new GregorianCalendar();
-  private JSpinner jspnYear = new JSpinner(new SpinnerNumberModel(calendar.get(Calendar.YEAR),
-      Integer.MIN_VALUE, Integer.MAX_VALUE, 1));
-  private JLabel jlblLeapYear = new JLabel();
-  private JButton jbtCheck = new JButton("Check");
 
-  /** Add required Swing elements when constructed. */
-  public CheckLeapYear() {
-    // Customize JSpinners
-    jspnYear.setEditor(new JSpinner.NumberEditor(jspnYear, "#"));
+  @Override
+  public void start(Stage primaryStage) {
+    // Create and configure required JavaFX nodes
+    Spinner spnYear = new Spinner(Integer.MIN_VALUE, Integer.MAX_VALUE,
+        calendar.get(Calendar.YEAR), 1);
+    Label lblIsLeapYear = new Label(checkLeapYear((int) spnYear.getValue()) ? "Yes" : "No");
+    Button btnCheck = new Button("Check");
+
+    // Create panes for nodes
+    GridPane pane = new GridPane();
+    pane.setAlignment(Pos.CENTER);
+    pane.setPadding(new Insets(12, 12, 12, 12));
+    pane.setHgap(5.5);
+    pane.setVgap(5.5);
+
+    // Add nodes to panes
+    pane.add(new Label("Year:"), 0, 0);
+    pane.add(spnYear, 1, 0);
+    pane.add(new Label("Leap Year?"), 0, 1);
+    pane.add(lblIsLeapYear, 1, 1);
+    pane.add(btnCheck, 1, 2);
+    GridPane.setHalignment(btnCheck, HPos.RIGHT);
+
+    // Register handlers
+    btnCheck.setOnAction(e -> {
+      boolean isLeapYear = checkLeapYear((int) spnYear.getValue());
+      lblIsLeapYear.setText(isLeapYear ? "Yes" : "No");
+    });
     
-    // Add necessary Swing components
-    JPanel p1 = new JPanel(new GridLayout(2, 2));
-    p1.add(new JLabel("Year:"));
-    p1.add(jspnYear);
-    p1.add(new JLabel("Leap Year?"));
-    p1.add(jlblLeapYear);
-    p1.setBorder(new TitledBorder("Enter year."));
-
-    jbtCheck.setMnemonic('C');
-    JPanel p2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-    p2.add(jbtCheck);
-
-    add(p1, BorderLayout.CENTER);
-    add(p2, BorderLayout.SOUTH);
-
-    // Add Listeners
-    jbtCheck.addActionListener(new CheckListener());
-  }
-
-  /** Listen for when jbtCheck is pressed and update jlblLeapYear. */
-  private class CheckListener implements ActionListener {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      try {
-        boolean isLeapYear = checkLeapYear((int)jspnYear.getValue());
-        jlblLeapYear.setText(isLeapYear ? "Yes" : "No");
-      } catch (NumberFormatException err) {
-        jlblLeapYear.setText("ERROR");
-      }
-    }
+    // Create a scene and place it in primaryStage
+    Scene scene = new Scene(pane, 300, 150);
+    primaryStage.setTitle("Leap Year Checker");
+    primaryStage.setScene(scene);
+    primaryStage.setResizable(false);
+    primaryStage.show();
   }
 
   /** Check if the given year is a leap year. */
-  public static boolean checkLeapYear(int year) {
+  private static boolean checkLeapYear(int year) {
     boolean isLeapYear = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
     return isLeapYear;
-  }
-
-  /** Main method. */
-  public static void main(String[] args) {
-    CheckLeapYear frame = new CheckLeapYear();
-    frame.setSize(200, 150);
-    frame.setTitle("Leap Year Checker");
-    frame.setLocationRelativeTo(null);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setVisible(true);
   }
 }
