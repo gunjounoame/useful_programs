@@ -1,83 +1,77 @@
 package useful.dayofweek;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerListModel;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.border.TitledBorder;
-import useful.templates.GuiProject;
+import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
-public class DayOfWeek extends GuiProject {
+public class DayOfWeek extends Application {
   private Calendar calendar = new GregorianCalendar();
-  private JSpinner jspnYear = new JSpinner(new SpinnerNumberModel(calendar.get(Calendar.YEAR),
-      Integer.MIN_VALUE, Integer.MAX_VALUE, 1));
-  private JSpinner jspnMonth = new JSpinner(new SpinnerListModel(new String[] {"January",
-      "February", "March", "April", "May", "June", "July", "August", "September", "October",
-      "November", "December"}));
-  private JSpinner jspnDay = new JSpinner(new SpinnerNumberModel(1, 1, 31, 1));
-  private JLabel jlblDayOfWeek = new JLabel();
-  private JButton jbtComputeDayOfWeek = new JButton("Compute Day of Week");
+  private String[] monthNames = {"January", "February", "March", "April", "May", "June", "July",
+      "August", "September", "October", "November", "December"};
 
-  /** Add required Swing elements when constructed. */
-  public DayOfWeek() {
-    // Customize JSpinners
-    jspnYear.setEditor(new JSpinner.NumberEditor(jspnYear, "#"));
-    jspnMonth.setValue(parseMonthInt(calendar.get(Calendar.MONTH)));
-    jspnDay.setValue(calendar.get(Calendar.DATE));
-    
-    // Add necessary Swing components
-    JPanel p1 = new JPanel(new GridLayout(4, 2));
-    p1.add(new JLabel("Year:"));
-    p1.add(jspnYear);
-    p1.add(new JLabel("Month:"));
-    p1.add(jspnMonth);
-    p1.add(new JLabel("Day:"));
-    p1.add(jspnDay);
-    p1.add(new JLabel("Day of week:"));
-    p1.add(jlblDayOfWeek);
-    p1.setBorder(new TitledBorder("Enter year, month, and day."));
+  @Override
+  public void start(Stage primaryStage) {
+    // Create and configure required JavaFX nodes
+    Spinner spnYear = new Spinner(Integer.MIN_VALUE, Integer.MAX_VALUE,
+        calendar.get(Calendar.YEAR), 1);
+    Spinner<String> spnMonth = new Spinner<String>(FXCollections.observableArrayList(monthNames));
+    spnMonth.getValueFactory().setValue(parseMonthInt(calendar.get(Calendar.MONTH)));
+    Spinner spnDay = new Spinner(1, 31, calendar.get(Calendar.DATE), 1);
+    Label lblDayOfWeek = new Label(calculateDayOfWeek(calendar.get(Calendar.YEAR),
+        calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE)));
+    Button btnComputeDayOfWeek = new Button("Compute");
 
-    jbtComputeDayOfWeek.setMnemonic('C');
-    JPanel p2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-    p2.add(jbtComputeDayOfWeek);
+    // Create panes for nodes
+    GridPane pane = new GridPane();
+    pane.setAlignment(Pos.CENTER);
+    pane.setPadding(new Insets(12, 12, 12, 12));
+    pane.setHgap(5.5);
+    pane.setVgap(5.5);
 
-    add(p1, BorderLayout.CENTER);
-    add(p2, BorderLayout.SOUTH);
+    // Add nodes to panes
+    pane.add(new Label("Year:"), 0, 0);
+    pane.add(spnYear, 1, 0);
+    pane.add(new Label("Month:"), 0, 1);
+    pane.add(spnMonth, 1, 1);
+    pane.add(new Label("Day:"), 0, 2);
+    pane.add(spnDay, 1, 2);
+    pane.add(new Label("Day of week:"), 0, 3);
+    pane.add(lblDayOfWeek, 1, 3);
+    pane.add(btnComputeDayOfWeek, 1, 4);
+    GridPane.setHalignment(btnComputeDayOfWeek, HPos.RIGHT);
 
-    // Add Listeners
-    jbtComputeDayOfWeek.addActionListener(new ComputeListener());
+    // Register handlers
+    btnComputeDayOfWeek.setOnAction(e -> {
+      int year = (int) spnYear.getValue();
+      int month = parseMonth(spnMonth.getValue().toString());
+      int dayOfMonth = (int) spnDay.getValue();
+      String dayOfWeek = calculateDayOfWeek(year, month, dayOfMonth);
+      lblDayOfWeek.setText(dayOfWeek);
+    });
+
+    // Create a scene and place it in primaryStage
+    Scene scene = new Scene(pane, 320, 200);
+    primaryStage.setTitle("Day of week calculator");
+    primaryStage.setScene(scene);
+    primaryStage.setResizable(false);
+    primaryStage.show();
   }
 
-  /** Listen for when jbtComputeDayOfWeek is pressed and update jlblDayOfWeek. */
-  private class ComputeListener implements ActionListener {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      try {
-        int year = (int) jspnYear.getValue();
-        int month = parseMonth(jspnMonth.getValue().toString());
-        int dayOfMonth = (int) jspnDay.getValue();
-        String dayOfWeek = calculateDayOfWeek(year, month, dayOfMonth);
-        jlblDayOfWeek.setText(dayOfWeek);
-      } catch (NumberFormatException err) {
-        jlblDayOfWeek.setText("ERROR");
-      }
-    }
-  }
-
-  /**
+  /** 
    * Calculate the day of the week as a String based on arguments, or "ERROR" if an error occurs.
    */
-  public static String calculateDayOfWeek(int year_, int month_, int dayOfMonth_) {
+  private static String calculateDayOfWeek(int year_, int month_, int dayOfMonth_) {
     int year = year_;
     int month = month_;
     int dayOfMonth = dayOfMonth_;
@@ -94,7 +88,7 @@ public class DayOfWeek extends GuiProject {
     int yearOfCentury = year % 100;
     int dayOfWeek = (dayOfMonth + (13 * (month + 1)) / 5 + yearOfCentury + (yearOfCentury) / 4
         + century / 4 + 5 * century) % 7;
-
+    
     switch (dayOfWeek) {
       case 0:
         return "Saturday";
@@ -180,15 +174,5 @@ public class DayOfWeek extends GuiProject {
       default:
         return "January";
     }
-  }
-
-  /** Main method. */
-  public static void main(String[] args) {
-    DayOfWeek frame = new DayOfWeek();
-    frame.setSize(200, 200);
-    frame.setTitle("Day of week calculator");
-    frame.setLocationRelativeTo(null);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setVisible(true);
   }
 }

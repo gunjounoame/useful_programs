@@ -22,8 +22,6 @@ Calculates which day of the week a given date falls on.
 
 (added in v0.1.0)
 
-**Note**: this program is now temporarily broken as I reimplement the different programs in JavaFX. Please use the other versions of this program in the `master` branch (stable release) or the `development` branch (development release). Sorry for any inconveniences!
-
 ### `Stopwatch` (Package: `useful.stopwatch`)
 
 A general stopwatch, with options for "reset," "start," and "lap."
