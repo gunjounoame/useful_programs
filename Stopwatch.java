@@ -1,91 +1,81 @@
 package useful.stopwatch;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import useful.templates.GuiProject;
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
-public class Stopwatch extends GuiProject {
-  private JTextArea jtaOutput = new JTextArea(33, 100);
-  private JButton jbtReset = new JButton("Reset");
-  private JButton jbtLap = new JButton("Start");
-  private boolean start = true;
-  private long startTime;
-  private long lastTime;
-  private long lapNum = 1;
+public class Stopwatch extends Application {
+  boolean start = true;
+  long startTime;
+  long lastTime;
+  long lapNum = 1;
   
-  /** Add required Swing elements when constructed. */
-  public Stopwatch() {
-    // Add necessary Swing components
-    JPanel p1 = new JPanel(new BorderLayout());
-    jtaOutput.setEditable(false);
-    p1.add(new JScrollPane(jtaOutput), BorderLayout.CENTER);
+  @Override
+  public void start(Stage primaryStage) {
+    // Create and configure required JavaFX nodes
+    TextArea txaOutput = new TextArea();
+    txaOutput.setPrefColumnCount(20);
+    txaOutput.setEditable(false);
+    Button btnReset = new Button("Reset");
+    Button btnLap = new Button("Start");
 
-    JPanel p2 = new JPanel(new GridLayout(1, 2, 25, 25));
-    jbtReset.setMnemonic('R');
-    jbtLap.setMnemonic('S');
-    p2.add(jbtReset);
-    p2.add(jbtLap);
+    // Create panes for nodes
+    GridPane pane = new GridPane();
+    pane.setAlignment(Pos.CENTER);
+    pane.setPadding(new Insets(12, 12, 12, 12));
+    pane.setHgap(5.5);
+    pane.setVgap(5.5);
 
-    add(p1, BorderLayout.CENTER);
-    add(p2, BorderLayout.SOUTH);
+    VBox buttons = new VBox();
+    buttons.setAlignment(Pos.CENTER);
+    buttons.setPadding(new Insets(12, 12, 12, 12));
 
-    // Add Listeners
-    jbtLap.addActionListener(new LapListener());
-    jbtReset.addActionListener(new ResetListener());
-  }
+    // Add nodes to panes
+    VBox.setMargin(btnLap, new Insets(0, 0, 15, 0));
+    buttons.getChildren().addAll(btnLap);
+    VBox.setMargin(btnReset, new Insets(0, 0, 15, 0));
+    buttons.getChildren().addAll(btnReset);
+    
+    pane.add(txaOutput, 0, 0);
+    pane.add(buttons, 1, 0);
 
-  /** 
-   * Listen for when jbtLap is pressed and start the stopwatch if one hasn't started yet, otherwise
-   * log a line of output representing the lap to jtaOutput.
-   */
-  class LapListener implements ActionListener {
-    @Override
-    public void actionPerformed(ActionEvent e) {
+    // Register handlers
+    btnLap.setOnAction(e -> {
       if (start) {
         startTime = System.currentTimeMillis();
         lastTime = startTime;
-        jbtLap.setText("Lap");
-        jbtLap.setMnemonic('L');
+        btnLap.setText("Lap");
         start = false;
       } else {
         long lapTime = System.currentTimeMillis() - lastTime;
         long totalTime = System.currentTimeMillis() - startTime;
-        jtaOutput.append(String.format("Lap #%d: %f (%f)\n", lapNum, lapTime / 1000.0,
-            totalTime / 1000.0));
+        txaOutput.appendText(String.format("Lap #%d: %f (%f)\n", lapNum, lapTime / 1000.0, totalTime / 1000.0));
         lapNum++;
         lastTime = System.currentTimeMillis();
       }
-    }
-  }
+    });
 
-  /** Listen for when jbtReset is pressed and reset the program to its defaults. */
-  class ResetListener implements ActionListener {
-    @Override
-    public void actionPerformed(ActionEvent e) {
+    btnReset.setOnAction(e -> {
       startTime = 0;
       lastTime = 0;
       lapNum = 1;
-      jtaOutput.setText("");
-      jbtLap.setText("Start");
-      jbtLap.setMnemonic('S');
+      txaOutput.setText("");
+      btnLap.setText("Start");
       start = true;
-    }
-  }
-  
-  /** Main method. */
-  public static void main(String[] args) {
-    Stopwatch frame = new Stopwatch();
-    frame.setSize(350, 200);
-    frame.setLocationRelativeTo(null);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setTitle("Stopwatch");
-    frame.setVisible(true);
+    });
+
+    // Create a scene and place it in primaryStage
+    Scene scene = new Scene(pane, 400, 200);
+    primaryStage.setTitle("Stopwatch");
+    primaryStage.setScene(scene);
+    primaryStage.setResizable(false);
+    primaryStage.show();
   }
 }
