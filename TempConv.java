@@ -1,125 +1,109 @@
 package useful.tempconv;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.border.TitledBorder;
-import useful.templates.GuiProject;
+import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
-public class TempConv extends GuiProject {
-  private JComboBox<String> jcbTemperatures1 = new JComboBox<String>(new String[] {"Celsius",
-      "Fahrenheit", "Kelvin"});
-  private JComboBox<String> jcbTemperatures2 = new JComboBox<String>(new String[] {"Celsius",
-      "Fahrenheit", "Kelvin"});
-  private JButton jbtSwitch = new JButton("\u2194");
-  private JTextField jtfFromTemperature = new JTextField();
-  private JButton jbtConvert = new JButton("\u2192");
-  private JLabel jlblToTemperature = new JLabel();
+public class TempConv extends Application {
+  @Override
+  public void start(Stage primaryStage) {
+    // Create and configure required JavaFX nodes
+    ComboBox<String> cmbTemperatures1 = new ComboBox<String>(FXCollections.observableArrayList(new String[] {"°C", "°F", "K"}));
+    cmbTemperatures1.setValue("°F");
+    ComboBox<String> cmbTemperatures2 = new ComboBox<String>(FXCollections.observableArrayList(new String[] {"°C", "°F", "K"}));
+    cmbTemperatures2.setValue("°C");
+    TextField txfFromTemperature = new TextField();
+    txfFromTemperature.setAlignment(Pos.CENTER_RIGHT);
+    Button btnConvert = new Button("Convert");
+    Label lblToTemperature = new Label();
 
-  /** Add required Swing elements when constructed. */
-  public TempConv() {
-    // Add necessary Swing components
-    jcbTemperatures1.setSelectedItem("Fahrenheit");
-    jbtConvert.setMnemonic('C');
-    jbtSwitch.setMnemonic('S');
+    // Create panes for nodes
+    GridPane pane = new GridPane();
+    pane.setAlignment(Pos.CENTER);
+    pane.setPadding(new Insets(12, 12, 12, 12));
+    pane.setHgap(5.5);
+    pane.setVgap(5.5);
 
-    JPanel p = new JPanel(new GridLayout(2, 3, 5, 5));
-    p.add(jcbTemperatures1);
-    p.add(jbtSwitch);
-    p.add(jcbTemperatures2);
-    p.add(jtfFromTemperature);
-    p.add(jbtConvert);
-    p.add(jlblToTemperature);
-    p.setBorder(new TitledBorder("Choose temperatures, enter temperature, and convert."));
+    // Add nodes to panes
+    pane.add(new Label("Starting Temperature"), 0, 0);
+    pane.add(txfFromTemperature, 1, 0);
+    pane.add(cmbTemperatures1, 2, 0);
+    pane.add(new Label("Converted Temperature"), 0, 1);
+    pane.add(lblToTemperature, 1, 1);
+    GridPane.setHalignment(lblToTemperature, HPos.RIGHT);
+    pane.add(cmbTemperatures2, 2, 1);
+    pane.add(btnConvert, 1, 2, 2, 1);
+    GridPane.setHalignment(btnConvert, HPos.RIGHT);
 
-    add(p, BorderLayout.CENTER);
-
-    // Add Listeners
-    jbtConvert.addActionListener(new ConvertListener());
-    jbtSwitch.addActionListener(new SwitchListener());
-  }
-
-  /** Listen for when jbtConvert is pressed and update jlblToTemperature. */
-  private class ConvertListener implements ActionListener {
-    @Override
-    public void actionPerformed(ActionEvent e) {
+    // Register handlers
+    btnConvert.setOnAction(e -> {
       try {
-        String fromTemperatureUnit = (String) jcbTemperatures1.getSelectedItem();
-        String toTemperatureUnit = (String) jcbTemperatures2.getSelectedItem();
-        double fromTemperature = Double.parseDouble(jtfFromTemperature.getText());
+        String fromTemperatureUnit = (String) cmbTemperatures1.getValue();
+        String toTemperatureUnit = (String) cmbTemperatures2.getValue();
+        double fromTemperature = Double.parseDouble(txfFromTemperature.getText());
 
         switch (fromTemperatureUnit) {
-          case "Celsius":
+          case "°C":
             switch (toTemperatureUnit) {
-              case "Celsius":
-                jlblToTemperature.setText(Double.toString(fromTemperature));
+              case "°C":
+                lblToTemperature.setText(Double.toString(fromTemperature));
                 break;
-              case "Fahrenheit":
-                jlblToTemperature.setText(Double.toString(celsiusToFahrenheit(fromTemperature)));
+              case "°F":
+                lblToTemperature.setText(Double.toString(celsiusToFahrenheit(fromTemperature)));
                 break;
-              case "Kelvin":
-                jlblToTemperature.setText(Double.toString(celsiusToKelvin(fromTemperature)));
+              case "K":
+                lblToTemperature.setText(Double.toString(celsiusToKelvin(fromTemperature)));
                 break;
             }
             break;
-          case "Fahrenheit":
+          case "°F":
             switch (toTemperatureUnit) {
-              case "Celsius":
-                jlblToTemperature.setText(Double.toString(fahrenheitToCelsius(fromTemperature)));
+              case "°C":
+                lblToTemperature.setText(Double.toString(fahrenheitToCelsius(fromTemperature)));
                 break;
-              case "Fahrenheit":
-                jlblToTemperature.setText(Double.toString(fromTemperature));
+              case "°F":
+                lblToTemperature.setText(Double.toString(fromTemperature));
                 break;
-              case "Kelvin":
-                jlblToTemperature.setText(Double.toString(fahrenheitToKelvin(fromTemperature)));
+              case "K":
+                lblToTemperature.setText(Double.toString(fahrenheitToKelvin(fromTemperature)));
                 break;
             }
             break;
-          case "Kelvin":
+          case "K":
             switch (toTemperatureUnit) {
-              case "Celsius":
-                jlblToTemperature.setText(Double.toString(kelvinToCelsius(fromTemperature)));
+              case "°C":
+                lblToTemperature.setText(Double.toString(kelvinToCelsius(fromTemperature)));
                 break;
-              case "Fahrenheit":
-                jlblToTemperature.setText(Double.toString(kelvinToFahrenheit(fromTemperature)));
+              case "°F":
+                lblToTemperature.setText(Double.toString(kelvinToFahrenheit(fromTemperature)));
                 break;
-              case "Kelvin":
-                jlblToTemperature.setText(Double.toString(fromTemperature));
+              case "K":
+                lblToTemperature.setText(Double.toString(fromTemperature));
                 break;
             }
             break;
         }
       } catch (NumberFormatException err) {
-        jlblToTemperature.setText("ERROR");
+        lblToTemperature.setText("ERROR");
       }
-    }
-  }
+    });
 
-  /** Listen for when jbtSwitch is pressed and switch the temperature units. */
-  private class SwitchListener implements ActionListener {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      String tmp = (String) jcbTemperatures1.getSelectedItem();
-      jcbTemperatures1.setSelectedItem(jcbTemperatures2.getSelectedItem());
-      jcbTemperatures2.setSelectedItem(tmp);
-    }
-  }
-
-  /** Main method. */
-  public static void main(String[] args) {
-    TempConv frame = new TempConv();
-    frame.setSize(350, 110);
-    frame.setTitle("Temperature Converter");
-    frame.setLocationRelativeTo(null);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setVisible(true);
+    // Create a scene and place it in primaryStage
+    Scene scene = new Scene(pane, 450, 120);
+    primaryStage.setTitle("Temperature Converter");
+    primaryStage.setScene(scene);
+    primaryStage.setResizable(false);
+    primaryStage.show();
   }
 
   // Conversions for the application.
