@@ -18,9 +18,11 @@ public class TempConv extends Application {
   @Override
   public void start(Stage primaryStage) {
     // Create and configure required JavaFX nodes
-    ComboBox<String> cmbTemperatures1 = new ComboBox<String>(FXCollections.observableArrayList(new String[] {"°C", "°F", "K"}));
+    ComboBox<String> cmbTemperatures1 = new ComboBox<String>(FXCollections.observableArrayList(new
+        String[] {"°C", "°F", "K"}));
     cmbTemperatures1.setValue("°F");
-    ComboBox<String> cmbTemperatures2 = new ComboBox<String>(FXCollections.observableArrayList(new String[] {"°C", "°F", "K"}));
+    ComboBox<String> cmbTemperatures2 = new ComboBox<String>(FXCollections.observableArrayList(new
+        String[] {"°C", "°F", "K"}));
     cmbTemperatures2.setValue("°C");
     TextField txfFromTemperature = new TextField();
     txfFromTemperature.setAlignment(Pos.CENTER_RIGHT);
