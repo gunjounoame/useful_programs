@@ -34,8 +34,6 @@ Converts temperatures between Celsius, Fahrenheit, and Kelvin.
 
 (added in v0.1.0)
 
-**Note**: this program is now temporarily broken as I reimplement the different programs in JavaFX. Please use the other versions of this program in the `master` branch (stable release) or the `development` branch (development release). Sorry for any inconveniences!
-
 ## FAQ
 
 Why does the repository name contain an underscore when it's written in Java?
