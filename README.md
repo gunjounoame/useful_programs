@@ -2,6 +2,8 @@
 
 A library/collection of programs written in Java.
 
+> **NOTE: As of July 24, 2021, I have decided to make each program their own separate project. Therefore, this repository is most likely out-of-date.**
+
 ## Production
 
 **This project is still under production!** This means that not all of the programs will be stable. If you find any bugs, report them, and I will try my hardest to fix them as fast as I can (though I'm not that good of a programmer! :P).
